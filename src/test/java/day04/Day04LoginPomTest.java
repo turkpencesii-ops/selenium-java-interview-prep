@@ -13,9 +13,21 @@ public class Day04LoginPomTest extends BaseTest {
         SecureAreaPage secure = new LoginPage(driver, wait)
                 .open()
                 .loginAs("tomsmith", "SuperSecretPassword!");
+                .fehlgeschlagenen("tomsmith123", "SuperSecretPassword!");
 
         Assert.assertTrue(
                 secure.getFlashMessage().contains("You logged into a secure area!"),
                 "Login-Meldung fehlt");
     }
+
+
+    @Test
+    public void invalidPasswordShowsError() {
+         String error = new LoginPage(driver, wait)
+            .open()
+            .loginWithInvalidCredentials("tomsmith", "wrongPassword")
+            .getErrorMessage();
+
+    Assert.assertTrue(error.contains(???), "Fehlermeldung fehlt: " + error);
+}
 }
